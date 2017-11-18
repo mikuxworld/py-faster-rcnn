@@ -124,6 +124,7 @@ def _get_bbox_regression_labels(bbox_target_data, num_classes):
         cls = clss[ind]
         start = 4 * cls
         end = start + 4
+
         bbox_targets[ind, start:end] = bbox_target_data[ind, 1:]
         bbox_inside_weights[ind, start:end] = cfg.TRAIN.BBOX_INSIDE_WEIGHTS
     return bbox_targets, bbox_inside_weights
@@ -163,6 +164,7 @@ def _sample_rois(all_rois, gt_boxes, fg_rois_per_image, rois_per_image, num_clas
     fg_rois_per_this_image = min(fg_rois_per_image, fg_inds.size)
     # Sample foreground regions without replacement
     if fg_inds.size > 0:
+
         fg_inds = npr.choice(fg_inds, size=fg_rois_per_this_image, replace=False)
 
     # Select background RoIs as those within [BG_THRESH_LO, BG_THRESH_HI)

@@ -29,6 +29,12 @@ case $DATASET in
     PT_DIR="pascal_voc"
     ITERS=70000
     ;;
+  mot)
+    TRAIN_IMDB="mot"
+    TEST_IMDB="mot"
+    PT_DIR="mot"
+    ITERS=1000
+    ;;
   coco)
     # This is a very long and slow training schedule
     # You can probably use fewer iterations and reduce the
@@ -47,7 +53,13 @@ esac
 LOG="experiments/logs/faster_rcnn_end2end_${NET}_${EXTRA_ARGS_SLUG}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
 exec &> >(tee -a "$LOG")
 echo Logging output to "$LOG"
-
+echo time ./tools/train_net.py --gpu ${GPU_ID} \
+  --solver models/${PT_DIR}/${NET}/faster_rcnn_end2end/solver.prototxt \
+  --weights data/imagenet_models/${NET}.v2.caffemodel \
+  --imdb ${TRAIN_IMDB} \
+  --iters ${ITERS} \
+  --cfg experiments/cfgs/faster_rcnn_end2end.yml \
+  ${EXTRA_ARGS}
 time ./tools/train_net.py --gpu ${GPU_ID} \
   --solver models/${PT_DIR}/${NET}/faster_rcnn_end2end/solver.prototxt \
   --weights data/imagenet_models/${NET}.v2.caffemodel \
