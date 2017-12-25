@@ -29,6 +29,12 @@ case $DATASET in
     PT_DIR="pascal_voc"
     ITERS=40000
     ;;
+  mot)
+    TRAIN_IMDB="mot"
+    TEST_IMDB="mot"
+    PT_DIR="mot"
+    ITERS=10000
+    ;;
   coco)
     echo "Not implemented: use experiments/scripts/faster_rcnn_end2end.sh for coco"
     exit
